@@ -46,7 +46,7 @@ class Server:
         if (
             pagination[0] > len(dataset) - 1
             or
-            pagination[1] >= len(dataset[pagination[0]:])
+            len(dataset[pagination[0]:]) < page_size
         ):
             return []
         return dataset[pagination[0]:pagination[1]]
