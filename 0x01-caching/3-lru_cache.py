@@ -24,9 +24,7 @@ class LRUCache(BaseCaching):
                 and not self.cache_data.get(key)
             ):
                 sorted_recent = sorted(self.recent, key=self.recent.get)
-                print(sorted_recent)
                 least_recent_key = sorted_recent[0]
-                # print(self.recent)
                 del self.recent[least_recent_key]
                 del self.cache_data[least_recent_key]
                 print(f"DISCARD: {least_recent_key}")
