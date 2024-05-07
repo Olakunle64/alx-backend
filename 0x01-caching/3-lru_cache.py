@@ -33,6 +33,8 @@ class LRUCache(BaseCaching):
                 self.cache_data[key] = item
 
     def get(self, key):
+        """ Get an item by key
+        """
         if self.cache_data.get(key):
             return self.cache_data.get(key)
         return None
