@@ -4,7 +4,7 @@
     the default locale and timezone.
 """
 from flask import Flask, render_template
-from flask_babel import Babel, _
+from flask_babel import Babel
 from flask import request
 
 app = Flask(__name__)
@@ -12,7 +12,7 @@ babel = Babel(app)
 
 
 @babel.localeselector
-def get_locale():
+def get_locale() -> str:
     """return the best matches LANGUAGE"""
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
@@ -28,7 +28,7 @@ app.config.from_object(Config)
 
 
 @app.route("/")
-def hello_world():
+def hello_world() -> str:
     """Greet the world"""
     return render_template(
         "3-index.html")

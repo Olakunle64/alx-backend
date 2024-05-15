@@ -4,7 +4,7 @@
     the default locale and timezone.
 """
 from flask import Flask, render_template
-from flask_babel import Babel, _
+from flask_babel import Babel
 from flask import request
 
 app = Flask(__name__)
