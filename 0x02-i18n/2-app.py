@@ -7,14 +7,14 @@ from flask import Flask, render_template
 from flask_babel import Babel
 from flask import request
 
+app = Flask(__name__)
+babel = Babel(app)
 
+
+@babel.localeselector
 def get_locale():
     """return the best matches LANGUAGE"""
     return request.accept_languages.best_match(app.config['LANGUAGES'])
-
-
-app = Flask(__name__)
-babel = Babel(app, locale_selector=get_locale)
 
 
 class Config():
