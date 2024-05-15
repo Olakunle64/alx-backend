@@ -48,6 +48,7 @@ def get_locale():
     if locale and locale in app.config["LANGUAGES"]:
         return locale
 
+
 @app.before_request
 def before_request():
     """a function to execute before any other function"""
