@@ -7,14 +7,14 @@ from flask import Flask, render_template
 from flask_babel import Babel, _
 from flask import request
 
+app = Flask(__name__)
+babel = Babel(app)
 
+
+@babel.localeselector
 def get_locale():
     """return the best matches LANGUAGE"""
     return request.accept_languages.best_match(app.config['LANGUAGES'])
-
-
-app = Flask(__name__)
-babel = Babel(app, locale_selector=get_locale)
 
 
 class Config():
@@ -32,8 +32,8 @@ def hello_world():
     """Greet the world"""
     return render_template(
         "3-index.html",
-        title=_("Welcome to Holberton"),
-        header=_("Hello world")
+        home_title=_("Welcome to Holberton"),
+        home_header=_("Hello world")
     )
 
 
