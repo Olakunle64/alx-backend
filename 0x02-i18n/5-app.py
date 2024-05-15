@@ -12,32 +12,8 @@ users = {
 }
 
 
-def get_user():
-    """return user details"""
-    user_id = request.args.get("login_as")
-    if user_id in users.keys():
-        return users.get(user_id)
-    return None
-
-
-def get_locale():
-    """return the best matches LANGUAGE"""
-    locale = request.args.get('locale')
-    if locale and locale in ["en", "fr"]:
-        return locale
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
-
-
 app = Flask(__name__)
-babel = Babel(app, locale_selector=get_locale)
-
-
-@app.before_request
-def before_request():
-    """a function to execute before any other function"""
-    user = get_user()
-    if user:
-        setattr(g, "user", user)
+babel = Babel(app)
 
 
 class Config():
@@ -48,6 +24,31 @@ class Config():
 
 
 app.config.from_object(Config)
+
+
+def get_user():
+    """return user details"""
+    user_id = request.args.get("login_as")
+    if user_id in users.keys():
+        return users.get(user_id)
+    return None
+
+
+@babel.localeselector
+def get_locale():
+    """return the best matches LANGUAGE"""
+    locale = request.args.get('locale')
+    if locale and locale in app.config["LANGUAGES"]:
+        return locale
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
+
+
+@app.before_request
+def before_request():
+    """a function to execute before any other function"""
+    user = get_user()
+    if user:
+        setattr(g, "user", user)
 
 
 @app.route("/")

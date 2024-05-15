@@ -7,17 +7,8 @@ from flask import Flask, render_template
 from flask_babel import Babel, _
 from flask import request
 
-
-def get_locale():
-    """return the best matches LANGUAGE"""
-    locale = request.args.get('locale')
-    if locale and locale in ["en", "fr"]:
-        return locale
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
-
-
 app = Flask(__name__)
-babel = Babel(app, locale_selector=get_locale)
+babel = Babel(app)
 
 
 class Config():
@@ -30,13 +21,20 @@ class Config():
 app.config.from_object(Config)
 
 
+@babel.localeselector
+def get_locale():
+    """return the best matches LANGUAGE"""
+    locale = request.args.get('locale')
+    if locale and locale in app.config["LANGUAGES"]:
+        return locale
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
+
+
 @app.route("/")
 def hello_world():
     """Greet the world"""
     return render_template(
         "4-index.html",
-        title=_("Welcome to Holberton"),
-        header=_("Hello world")
     )
 
 
