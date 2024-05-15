@@ -41,9 +41,16 @@ def get_user():
 def get_locale():
     """return the best matches LANGUAGE"""
     locale = request.args.get('locale')
+    if not locale:
+        user = getattr(g, "user", None)
+        if user:
+            locale = user.get("locale")
+    if not locale: 
+        locale = request.accept_languages.best_match(app.config['LANGUAGES'])
+    if not locale:
+        locale = "en"
     if locale and locale in app.config["LANGUAGES"]:
         return locale
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.before_request
@@ -62,7 +69,7 @@ def hello_world():
 
     # check if the user exists
     return render_template(
-        "5-index.html",
+        "6-index.html",
         user=user
     )
 
