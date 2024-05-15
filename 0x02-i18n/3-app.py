@@ -31,10 +31,7 @@ app.config.from_object(Config)
 def hello_world():
     """Greet the world"""
     return render_template(
-        "3-index.html",
-        home_title=_("Welcome to Holberton"),
-        home_header=_("Hello world")
-    )
+        "3-index.html")
 
 
 if __name__ == "__main__":
